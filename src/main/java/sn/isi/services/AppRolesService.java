@@ -36,7 +36,7 @@ public class AppRolesService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<AppRoles> getAppRoles() {
+	public List<AppRoles> getAppRoles() {;
 		/*List<AppRoles> appRoles = Arrays.asList(new AppRoles(), new AppRoles());
     	List<String> nomsAppRoles = appRoles.stream()
     			.map(appRole -> appRole.getNom())

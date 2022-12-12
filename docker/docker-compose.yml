@@ -1,0 +1,40 @@
+version: '3.9'
+
+services: 
+  mysql-admin-db: #Service utilisé pour la bd
+    image: mysql:8.0 #L'image de mysql qui sera récupérer
+    container_name: container_mysql_admin-db #Nom du container
+    environment: 
+      MYSQL_ROOT_PASSWORD: Passer@01 #Mot de passe de root
+      MYSQL_DATABASE: admin-db #Nom de la base de données
+      MYSQL_USER: root #Le user pour la connexion
+      MYSQL_PASSWORD: Passer@01 #Mot de passe de l'utilisateur
+    ports:
+      - 3301:3301 #Port exposé(3301) en interne et en externe
+    volumes:
+      - mysql_data:/var/lib/mysql #Le volume sur lequel sera monté notre bd
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD #Pour le test au démarrage en essayant de se connecter avec le username et le password
+
+  phpmyadmin-admin-db: #Démarrer ici une version de phpmyadmin
+    container_name: container_phpmyadmin-admin-db #Nom du container
+    image: phpmyadmin/phpmyadmin:latest #L'image de mysql qui sera récupérer
+    ports:
+      - 8085:80 #Le port qui sera exposé
+    environment:
+      MYSQL_ROOT_PASSWORD: Passer@01
+      PMA_HOST: mysql-admin-db #Service sur lequel il dépend
+      PMA_USER: root
+      PMA_PASSWORD: Passer@01
+    depends_on:
+      - mysql-admin-db
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+    driver: local
+    
+    
+    #Pour démarrer le fichier docker-compose 
+    #docker-compose up -d
+    #docker ps

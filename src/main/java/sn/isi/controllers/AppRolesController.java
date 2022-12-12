@@ -26,7 +26,6 @@ public class AppRolesController {
     @GetMapping
     public List<AppRoles> getAppRoles() {
        return appRolesService.getAppRoles();
-    	
     }
 
     @GetMapping("/{id}")
